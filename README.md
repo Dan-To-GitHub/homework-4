@@ -4,4 +4,4 @@ This is a coding quiz website I developed for Homework 4 in the Berkeley Coding 
 
 ![Preview Screenshot](./Assets/images/Preview.png)
 
-Link to deployed application: 
+Link to deployed application: https://dan-to-github.github.io/homework-4/
