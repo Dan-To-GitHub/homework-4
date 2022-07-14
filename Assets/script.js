@@ -29,10 +29,9 @@ var questions = [
     answer: "None of the above"},
     {title: "Within a for loop, which of the following represents an addition assignment of 1 for the 'love' variable?",
     options: ["love += 1","love =+ 1","love ++ 1","Both A and C"],
-    answer: "love += 1"}]
+    answer: "love += 1"}];
 
 // Starts quiz
-
 function init() {
     startQuiz.setAttribute("class", "hide");
     question.classList.remove("hide");
@@ -56,11 +55,16 @@ function timer() {
         secondsLeft--;
         timerEl.textContent = secondsLeft;
         
-        if ((secondsLeft === 0) || (currentQuestionIndex === 5)) {
+        // If time runs out or you take too many penalties
+        if (secondsLeft <= 0) {
             // Stops execution of action at set interval
             clearInterval(timerInterval);
-            // Calls function to end quiz
-            endQuiz();
+            // Set visual timer to 0
+            timerEl.textContent = 0;
+        } // When you complete the quiz with time to spare
+        else if (currentQuestionIndex === 5) {
+            // Stops execution of action
+            clearInterval(timerInterval);
         };
     }, 1000);
 }
@@ -84,11 +88,16 @@ options.forEach(function(option) {
         if (option.textContent === questions[currentQuestionIndex].answer) {
             currentScore += 20;
             console.log(currentScore);
-        };
+        } else if (secondsLeft > 10) {
+            secondsLeft -= 10;
+        } else {
+            secondsLeft = 0;
+            timerEl.textContent = 0;
+        }
         // Current index to move to next question
         currentQuestionIndex += 1;
-        // Display new question
-        if (currentQuestionIndex < 5) {
+        // Display new question if there's time left
+        if ((currentQuestionIndex < 5) && (secondsLeft > 0)) {
             console.log(currentQuestionIndex)
             displayQuestions();
             displayOptions();
@@ -133,10 +142,14 @@ submit.addEventListener("click", function(event) {
 
 // Redo quiz
 redoQuiz.addEventListener("click", function() {
+    // Resets values
     currentQuestionIndex = 0;
     currentScore = 0;
+    timerEl.textContent = 60;
     secondsLeft = 60;
+    // Visually resets the page
     scores.setAttribute("class", "hide")
+    redoQuiz.setAttribute("class", "hide")
     init();
 })
 
