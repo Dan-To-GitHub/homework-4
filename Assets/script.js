@@ -61,6 +61,8 @@ function timer() {
             clearInterval(timerInterval);
             // Set visual timer to 0
             timerEl.textContent = 0;
+            // Calls function to end quiz when time runs out
+            endQuiz();
         } // When you complete the quiz with time to spare
         else if (currentQuestionIndex === 5) {
             // Stops execution of action
@@ -102,6 +104,7 @@ options.forEach(function(option) {
             displayQuestions();
             displayOptions();
         } else {
+            // Ends quiz after 5 questions or if you time out from penalties
             endQuiz();
         };
     });
